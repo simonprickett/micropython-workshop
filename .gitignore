@@ -1,3 +1,10 @@
+# Other stuff
+.DS_Store
+*.log
+*.swp
+*.tmp
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
