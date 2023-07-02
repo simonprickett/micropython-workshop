@@ -12,3 +12,9 @@ def clear_screen():
     
 def set_backlight(r, g, b, w):
     gp.set_backlight(r, g, b, w)
+    
+def display_centered(text_to_display, y_pos, scale):
+    width = display.measure_text(text_to_display, scale)
+    x_pos = (DISPLAY_WIDTH - width) // 2
+    display.text(text_to_display, x_pos, y_pos, DISPLAY_WIDTH, scale)
+    return x_pos
