@@ -51,12 +51,20 @@ def display_intensity_info():
     gas_width = round(one_percent_length * gas_pct)
     others_width = round(one_percent_length * others_pct)
     
+    sorted_generators = sorted([
+        (solar_width, "solar"),
+        (wind_width, "wind"),
+        (nuclear_width, "nuclear"),
+        (gas_width, "gas"),
+        (others_width, "others")
+    ], reverse = True)
+    
     print(f"solar {solar_pct}")
     print(f"wind {wind_pct}")
     print(f"gas {gas_pct}")
     print(f"nuclear {nuclear_pct}")
     print(f"others {others_pct}")
-        
+            
     gfx.clear_screen()
 
     # Set backlight according to intensity...
@@ -70,19 +78,26 @@ def display_intensity_info():
         gfx.set_backlight(128, 0, 0, 0)
 
     # TODO centre the region name and draw a line unnder it...
+    display.text(region_name, 5, 3, gfx.DISPLAY_WIDTH, 1)
+
+    v_pos = 15
+    for g in sorted_generators:
+        display.text(g[1], 5, v_pos, gfx.DISPLAY_WIDTH, 1)
+        display.line(BAR_MIN_X, v_pos + 3, BAR_MIN_X + g[0], v_pos + 3, BAR_HEIGHT)
+        v_pos += 10
+           
     # TODO consider adding update time
     # TODO consider showing these in descending percentage order
-    display.text(region_name, 5, 3, gfx.DISPLAY_WIDTH, 1)
-    display.text("SOLAR", 5, 15, gfx.DISPLAY_WIDTH, 1)
-    display.text("WIND", 5, 25, gfx.DISPLAY_WIDTH, 1)
-    display.text("GAS", 5, 35, gfx.DISPLAY_WIDTH, 1)
-    display.text("NUCLEAR", 5, 45, gfx.DISPLAY_WIDTH, 1)
-    display.text("OTHERS", 5, 55, gfx.DISPLAY_WIDTH, 1)
-    display.line(BAR_MIN_X, 18, BAR_MIN_X + solar_width, 18, BAR_HEIGHT)
-    display.line(BAR_MIN_X, 28, BAR_MIN_X + wind_width, 28, BAR_HEIGHT)
-    display.line(BAR_MIN_X, 38, BAR_MIN_X + gas_width, 38, BAR_HEIGHT)
-    display.line(BAR_MIN_X, 48, BAR_MIN_X + nuclear_width, 48, BAR_HEIGHT)
-    display.line(BAR_MIN_X, 58, BAR_MIN_X + others_width, 58, BAR_HEIGHT)
+    #display.text("SOLAR", 5, 15, gfx.DISPLAY_WIDTH, 1)
+    #display.text("WIND", 5, 25, gfx.DISPLAY_WIDTH, 1)
+    #display.text("GAS", 5, 35, gfx.DISPLAY_WIDTH, 1)
+    #display.text("NUCLEAR", 5, 45, gfx.DISPLAY_WIDTH, 1)
+    #display.text("OTHERS", 5, 55, gfx.DISPLAY_WIDTH, 1)
+    #display.line(BAR_MIN_X, 18, BAR_MIN_X + solar_width, 18, BAR_HEIGHT)
+    #display.line(BAR_MIN_X, 28, BAR_MIN_X + wind_width, 28, BAR_HEIGHT)
+    #display.line(BAR_MIN_X, 38, BAR_MIN_X + gas_width, 38, BAR_HEIGHT)
+    #display.line(BAR_MIN_X, 48, BAR_MIN_X + nuclear_width, 48, BAR_HEIGHT)
+    #display.line(BAR_MIN_X, 58, BAR_MIN_X + others_width, 58, BAR_HEIGHT)
     display.update()
     
     
