@@ -5,23 +5,6 @@ import json
 import secrets
 import time
 import urequests
-
-# TODO exit mechanism back to a menu?
-
-def run():
-    refresh_intensity_display()
-    last_updated = time.ticks_ms()
-    
-    while True:
-        time.sleep(0.01)
-        
-        if gfx.gp.switch_pressed(SWITCH_E):
-            print("exit time!")
-            
-        ticks_now = time.ticks_ms()
-        if time.ticks_diff(ticks_now, last_updated) > secrets.CARBON_INTENSITY_UPDATE_FREQUENCY * 1000:
-            refresh_intensity_display()
-            last_updated = time.ticks_ms()
             
 def refresh_intensity_display():
     BAR_MIN_X = 50
@@ -102,3 +85,17 @@ def refresh_intensity_display():
            
     display.update()
           
+def run():
+    refresh_intensity_display()
+    last_updated = time.ticks_ms()
+    
+    while True:
+        time.sleep(0.01)
+        
+        if gfx.gp.switch_pressed(SWITCH_E):
+            return
+            
+        ticks_now = time.ticks_ms()
+        if time.ticks_diff(ticks_now, last_updated) > secrets.CARBON_INTENSITY_UPDATE_FREQUENCY * 1000:
+            refresh_intensity_display()
+            last_updated = time.ticks_ms()
