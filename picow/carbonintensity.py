@@ -1,15 +1,35 @@
+from gfx_pack import SWITCH_E
+
 import gfx
 import json
 import secrets
 import time
 import urequests
 
-def display_intensity_info():
+# TODO exit mechanism back to a menu?
+
+def run():
+    refresh_intensity_display()
+    last_updated = time.ticks_ms()
+    
+    while True:
+        time.sleep(0.01)
+        
+        if gfx.gp.switch_pressed(SWITCH_E):
+            print("exit time!")
+            
+        ticks_now = time.ticks_ms()
+        if time.ticks_diff(ticks_now, last_updated) > secrets.CARBON_INTENSITY_UPDATE_FREQUENCY * 1000:
+            refresh_intensity_display()
+            last_updated = time.ticks_ms()
+            
+def refresh_intensity_display():
     BAR_MIN_X = 50
     BAR_MAX_X = 120
     BAR_HEIGHT = 4
     
     display = gfx.display
+
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
     display.text("Loading Data...", 5, 20, gfx.DISPLAY_WIDTH, 2)
@@ -22,7 +42,6 @@ def display_intensity_info():
     
     # Get the intensity index (very low, low, moderate, high)
     intensity_index = response_doc["data"][0]["data"][0]["intensity"]["index"]
-    print(intensity_index)
 
     # Pick out values from the generation mix data...
     # we want solar, wind, gas, nuclear, then other is 100% minus the total of those.
@@ -82,9 +101,4 @@ def display_intensity_info():
         v_pos += 10
            
     display.update()
-        
-    while True:
-        time.sleep(0.5)
-        
-        
-        
+          

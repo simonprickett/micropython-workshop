@@ -59,7 +59,7 @@ while True:
         print("C pressed")
     elif gfx.gp.switch_pressed(SWITCH_D):
         print("D pressed")
-        carbonintensity.display_intensity_info()
+        carbonintensity.run()
     elif gfx.gp.switch_pressed(SWITCH_E):
         print("E pressed")
         
