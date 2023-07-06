@@ -5,6 +5,15 @@ import gfx
 import random
 import time
 
+def show_options():
+    display = gfx.display
+    gfx.clear_screen()
+    gfx.set_backlight(0, 0, 0, 80)
+    gfx.display_centered("PRODUCER", 5, 2)
+    x_pos = gfx.display_centered("A: Create Job", 35, 1)
+    display.text("E: Exit", x_pos, 44, gfx.DISPLAY_WIDTH, 1)
+    display.update()
+    
 def run():
     STREAM_KEY = "jobs"
 
@@ -16,17 +25,10 @@ def run():
         "extra_pillows"
     ]
     
-    display = gfx.display
-
-    gfx.clear_screen()
-    gfx.set_backlight(0, 0, 0, 80)
-    
-    gfx.display_centered("PRODUCER", 5, 2)
-    x_pos = gfx.display_centered("A: Create Job", 35, 1)
-    display.text("E: Exit", x_pos, 44, gfx.DISPLAY_WIDTH, 1)
-    display.update()
-    
+    show_options()    
     time.sleep(1)
+    
+    display = gfx.display
     
     while True:
         time.sleep(0.01)
@@ -37,9 +39,17 @@ def run():
                 "job": random.choice(JOB_TYPES)
             }
             
+            gfx.clear_screen()
+            gfx.display_centered("NEW JOB", 5, 2)
+            display.text(f"ROOM: {job['room']}", 5, 25, gfx.DISPLAY_WIDTH, 1)
+            display.text(f"JOB: {job['job']}", 5, 34, gfx.DISPLAY_WIDTH, 1)
+            display.update()
+            
             print(job)
             
-            # TODO update the screen etc...
-            time.sleep(1)
+            # DO THE REDIS THING GET THE JOB ID
+            
+            time.sleep(5)
+            show_options()
         elif gfx.gp.switch_pressed(SWITCH_E):
             return
