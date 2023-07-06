@@ -1,4 +1,5 @@
 from gfx_pack import SWITCH_E
+from picoredis impore Redis
 
 import gfx
 import time
