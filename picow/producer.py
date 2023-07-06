@@ -1,8 +1,9 @@
 from gfx_pack import SWITCH_A, SWITCH_E
-from picoredis import Redis
 
 import gfx
 import random
+import redis
+import secrets
 import time
 
 def show_options():
@@ -30,26 +31,41 @@ def run():
     
     display = gfx.display
     
+    # TODO display connecting message...
+    redis_client = redis.connect()
+    # TODO check if we have a client...
+    
     while True:
         time.sleep(0.01)
     
         if gfx.gp.switch_pressed(SWITCH_A):
-            job = {
-                "room": random.randint(100, 500),
-                "job": random.choice(JOB_TYPES)
-            }
+            room = random.randint(100, 500)
+            job = random.choice(JOB_TYPES)
             
             gfx.clear_screen()
             gfx.display_centered("NEW JOB", 5, 2)
-            display.text(f"ROOM: {job['room']}", 5, 25, gfx.DISPLAY_WIDTH, 1)
-            display.text(f"JOB: {job['job']}", 5, 34, gfx.DISPLAY_WIDTH, 1)
+            display.text(f"ROOM: {room}", 5, 25, gfx.DISPLAY_WIDTH, 1)
+            display.text(f"JOB: {job}", 5, 34, gfx.DISPLAY_WIDTH, 1)
+            display.update()
+                        
+            job_id = redis_client.xadd(
+                secrets.REDIS_STREAM_KEY,
+                "*",
+                "room",
+                room,
+                "job",
+                job
+            )
+            
+            display.text(f"ID: {job_id.decode('utf-8')}", 5, 43, gfx.DISPLAY_WIDTH, 1)
             display.update()
             
-            print(job)
-            
-            # DO THE REDIS THING GET THE JOB ID
+            gfx.flash_backlight(5, 0, 64, 0, 0)
+            gfx.set_backlight(0, 0, 0, 80)
             
             time.sleep(5)
             show_options()
         elif gfx.gp.switch_pressed(SWITCH_E):
+            # TODO dispay disconnecting message
+            redis_client.close()
             return

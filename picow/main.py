@@ -47,12 +47,7 @@ while not wlan.isconnected() and wlan.status() >= 0:
 # TODO deal with sad path stuff... https://docs.micropython.org/en/latest/library/network.WLAN.html
 # sort out these extra params - wordwrap & scale
 gfx.display_centered("Connected!", 1, 2)
-for _ in range(5):
-    gfx.set_backlight(0, 64, 0, 0)
-    time.sleep(0.2)
-    gfx.set_backlight(0, 0, 0, 0)
-    time.sleep(0.2)
-
+gfx.flash_backlight(5, 0, 64, 0, 0)
 gfx.set_backlight(0, 0, 0, 80)
 time.sleep(1)
 
