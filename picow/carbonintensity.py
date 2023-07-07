@@ -15,7 +15,7 @@ def refresh_intensity_display():
 
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
-    display.text("Loading Data...", 5, 20, gfx.DISPLAY_WIDTH, 2)
+    gfx.display_centered("LOADING...", 25, 2)
     display.update()
     
     response_doc = urequests.get(f"https://api.carbonintensity.org.uk/regional/postcode/{secrets.CARBON_INTENSITY_POSTCODE}").json()
@@ -54,11 +54,11 @@ def refresh_intensity_display():
     others_width = round(one_percent_length * others_pct)
     
     sorted_generators = sorted([
-        (solar_width, "solar"),
-        (wind_width, "wind"),
-        (nuclear_width, "nuclear"),
-        (gas_width, "gas"),
-        (others_width, "others")
+        (solar_width, "SOLAR"),
+        (wind_width, "WIND"),
+        (nuclear_width, "NUCLEAR"),
+        (gas_width, "GAS"),
+        (others_width, "OTHERS")
     ], reverse = True)
             
     gfx.clear_screen()

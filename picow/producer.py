@@ -11,7 +11,7 @@ def show_options():
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
     gfx.display_centered("PRODUCER", 5, 2)
-    x_pos = gfx.display_centered("A: Create Job", 35, 1)
+    x_pos = gfx.display_centered("A: CREATE JOB", 35, 1)
     display.text("E: Exit", x_pos, 44, gfx.DISPLAY_WIDTH, 1)
     display.update()
     
