@@ -58,7 +58,9 @@ while True:
         producer.run()
         main_menu()
     elif gfx.gp.switch_pressed(SWITCH_B):
-        consumer.run()
+        # Get consumer ID from IP address - last part.
+        ip_address = wlan.ifconfig()[0]
+        consumer.run(ip_address.split(".")[3])
         main_menu()
     elif gfx.gp.switch_pressed(SWITCH_C):
         streamstatus.run()

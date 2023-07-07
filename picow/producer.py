@@ -16,8 +16,6 @@ def show_options():
     display.update()
     
 def run():
-    STREAM_KEY = "jobs"
-
     JOB_TYPES = [
         "cleaning",
         "room_service",
