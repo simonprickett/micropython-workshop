@@ -13,6 +13,7 @@ def connect():
                                 
         return r
     except OSError as e:
-        print("crap")
+        # TODO do something here or pass it on to the caller...
+        print("Redis Error!")
         print(e)
         return None
