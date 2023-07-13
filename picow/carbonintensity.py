@@ -15,7 +15,7 @@ def refresh_intensity_display():
 
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
-    gfx.display_centered("LOADING...", 25, 2)
+    gfx.display_centered("UPDATING...", 25, 2)
     display.update()
     
     response_doc = urequests.get(f"https://api.carbonintensity.org.uk/regional/postcode/{secrets.CARBON_INTENSITY_POSTCODE}").json()
@@ -82,7 +82,8 @@ def refresh_intensity_display():
         display.text(g[1], 5, v_pos, gfx.DISPLAY_WIDTH, 1)
         display.line(BAR_MIN_X, v_pos + 3, BAR_MIN_X + g[0], v_pos + 3, BAR_HEIGHT)
         v_pos += 10
-           
+        
+    display.text("E: Exit", 95, 55, gfx.DISPLAY_WIDTH, 1)   
     display.update()
           
 def run():
