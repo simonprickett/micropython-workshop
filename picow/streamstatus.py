@@ -5,21 +5,17 @@ import redis
 import secrets
 import time
 
-def refresh_stream_status_display():
-    # TODO
-    return
+redis_client = None
 
-def run():
+def refresh_stream_status_display():
+    global redis_client
+
     display = gfx.display
 
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
     
-    # TODO display connecting message...
-    redis_client = redis.connect()
-    # TODO check if we have a client...
-
-    gfx.display_centered("LOADING...", 25, 2)
+    gfx.display_centered("UPDATING...", 25, 2)
     display.update()
 
     # Get consumer group status information...
@@ -66,13 +62,31 @@ def run():
             # TODO consumer group didn't exist!
             pass
         
-                
-    # TODO periodically update this...
+def run():
+    global redis_client
+    
+    display = gfx.display
+
+    gfx.clear_screen()
+    gfx.set_backlight(0, 0, 0, 80)
+    
+    # TODO display connecting message...
+    redis_client = redis.connect()
+    # TODO check if we have a client...
+
+    refresh_stream_status_display()
+    last_updated = time.ticks_ms()
     
     while True:
         time.sleep(0.01)
-    
+        
         if gfx.gp.switch_pressed(SWITCH_E):
             # TODO dispay disconnecting message
             redis_client.close()
             return
+            
+        ticks_now = time.ticks_ms()
+        if time.ticks_diff(ticks_now, last_updated) > secrets.REDIS_STREAM_UPDATE_FREQUENCY * 1000:
+            refresh_stream_status_display()
+            last_updated = time.ticks_ms()    
+    
