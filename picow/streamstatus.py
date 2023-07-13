@@ -60,7 +60,7 @@ def refresh_stream_status_display():
                 display.text(f"CONSUMERS: {consumers_in_group}", 5, 22, gfx.DISPLAY_WIDTH, 1)
                 display.text(f"IN PROGRESS: {jobs_in_progress}", 5, 32, gfx.DISPLAY_WIDTH, 1)
                 display.text(f"LAG: {consumer_lag}", 5, 42, gfx.DISPLAY_WIDTH, 1)
-                gfx.display_centered("E: EXIT", 55, 1)
+                gfx.display_centered("E: EXIT", 51, 1)
                 display.update()
         
         if not found_it:
@@ -93,5 +93,9 @@ def run():
         ticks_now = time.ticks_ms()
         if time.ticks_diff(ticks_now, last_updated) > secrets.REDIS_STREAM_UPDATE_FREQUENCY * 1000:
             refresh_stream_status_display()
-            last_updated = time.ticks_ms()    
+            last_updated = time.ticks_ms()
+            
+        # TODO temp code - need to draw a countdown bar...
+        display.line(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+        display.update()
     
