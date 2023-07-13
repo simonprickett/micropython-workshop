@@ -75,20 +75,24 @@ def refresh_intensity_display():
 
     # Centre the region name on screen.
     region_width = display.measure_text(region_name, 1)
-    display.text(region_name, (gfx.DISPLAY_WIDTH - region_width) // 2, 3, gfx.DISPLAY_WIDTH, 1)
+    display.text(region_name, (gfx.DISPLAY_WIDTH - region_width) // 2, 2, gfx.DISPLAY_WIDTH, 1)
 
-    v_pos = 15
+    v_pos = 10
     for g in sorted_generators:
         display.text(g[1], 5, v_pos, gfx.DISPLAY_WIDTH, 1)
         display.line(BAR_MIN_X, v_pos + 3, BAR_MIN_X + g[0], v_pos + 3, BAR_HEIGHT)
         v_pos += 10
         
-    display.text("E: Exit", 95, 55, gfx.DISPLAY_WIDTH, 1)   
+    display.text("E: Exit", 95, 50, gfx.DISPLAY_WIDTH, 1)   
     display.update()
           
 def run():
     refresh_intensity_display()
+    display = gfx.display
     last_updated = time.ticks_ms()
+    ticks_before = last_updated
+    bar_width = gfx.DISPLAY_WIDTH
+    BAR_UPDATE_FREQUENCY = 1000
     
     while True:
         time.sleep(0.01)
@@ -97,6 +101,16 @@ def run():
             return
             
         ticks_now = time.ticks_ms()
+        
+        if time.ticks_diff(ticks_now, ticks_before) > BAR_UPDATE_FREQUENCY:
+            bar_width = bar_width - (gfx.DISPLAY_WIDTH // secrets.CARBON_INTENSITY_UPDATE_FREQUENCY)
+            ticks_before = time.ticks_ms()
+            
         if time.ticks_diff(ticks_now, last_updated) > secrets.CARBON_INTENSITY_UPDATE_FREQUENCY * 1000:
             refresh_intensity_display()
             last_updated = time.ticks_ms()
+            bar_width = gfx.DISPLAY_WIDTH
+            
+        gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+        display.line(0, 61, bar_width, 61, 2)
+        display.update()
