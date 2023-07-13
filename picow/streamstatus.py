@@ -42,10 +42,6 @@ def refresh_stream_status_display():
                 jobs_in_progress = consumer_group[5]
                 consumer_lag = consumer_group[11]
                 
-                print(consumers_in_group)
-                print(jobs_in_progress)
-                print(consumer_lag)
-                
                 found_it = True
                 
                 gfx.clear_screen()
