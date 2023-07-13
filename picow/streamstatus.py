@@ -45,8 +45,17 @@ def refresh_stream_status_display():
                 found_it = True
                 
                 gfx.clear_screen()
-                # TODO set colour by lag...
-                gfx.set_backlight(0, 0, 0, 80)
+                
+                # Set backlight colour according to stream lag...
+                if consumer_lag < 3:
+                    gfx.set_backlight(0, 64, 0, 0)
+                elif consumer_lag < 6:
+                    gfx.set_backlight(128, 64, 0, 0)
+                elif consumer_lag < 9:
+                    gfx.set_backlight(128, 16, 0, 0)
+                else:
+                    gfx.set_backlight(128, 0, 0, 0)
+
                 gfx.display_centered("STATUS", 5, 2)
                 display.text(f"CONSUMERS: {consumers_in_group}", 5, 22, gfx.DISPLAY_WIDTH, 1)
                 display.text(f"IN PROGRESS: {jobs_in_progress}", 5, 32, gfx.DISPLAY_WIDTH, 1)
