@@ -70,7 +70,7 @@ def refresh_intensity_display():
         gfx.set_backlight(128, 64, 0, 0)
     elif intensity_index == "moderate":
         gfx.set_backlight(128, 16, 0, 0)
-    elif intensity_index == "high":
+    elif intensity_index == "high" or intensity_index == "very high":
         gfx.set_backlight(128, 0, 0, 0)
 
     # Centre the region name on screen.
