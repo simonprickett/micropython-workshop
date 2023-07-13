@@ -62,9 +62,9 @@ def run(consumer_id):
             else:
                 # Do the job.
                 task = response[0][1][0][1]
-                room = task[1].decode('utf-8')
-                job = task[3].decode('utf-8')
-                id = response[0][1][0][0].decode('utf-8')
+                room = task[1].decode("utf-8")
+                job = task[3].decode("utf-8")
+                id = response[0][1][0][0].decode("utf-8")
                 
                 gfx.display_centered("DOING JOB", 5, 2)
                 display.text(f"ID: {id}", 5, 25, gfx.DISPLAY_WIDTH, 1)
