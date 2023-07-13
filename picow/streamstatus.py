@@ -81,6 +81,9 @@ def run():
 
     refresh_stream_status_display()
     last_updated = time.ticks_ms()
+    ticks_before = last_updated
+    bar_width = gfx.DISPLAY_WIDTH
+    BAR_UPDATE_FREQUENCY = 200
     
     while True:
         time.sleep(0.01)
@@ -91,11 +94,17 @@ def run():
             return
             
         ticks_now = time.ticks_ms()
+        
+        if time.ticks_diff(ticks_now, ticks_before) > BAR_UPDATE_FREQUENCY:
+            bar_width = bar_width - (gfx.DISPLAY_WIDTH // (secrets.REDIS_STREAM_UPDATE_FREQUENCY * 5))
+            ticks_before = time.ticks_ms()
+            
         if time.ticks_diff(ticks_now, last_updated) > secrets.REDIS_STREAM_UPDATE_FREQUENCY * 1000:
             refresh_stream_status_display()
             last_updated = time.ticks_ms()
+            bar_width = gfx.DISPLAY_WIDTH
             
-        # TODO temp code - need to draw a countdown bar...
-        display.line(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+        gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+        display.line(0, 61, bar_width, 61, 2)
         display.update()
     

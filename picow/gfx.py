@@ -11,6 +11,12 @@ def clear_screen():
     display.clear()
     display.set_pen(15)
     
+def clear_rect(start_x, start_y, end_x, end_y, height):
+    display.set_pen(0)
+    display.line(start_x, start_y, end_x, end_y, height)
+    display.set_pen(15)
+    display.update()
+    
 def set_backlight(r, g, b, w):
     gp.set_backlight(r, g, b, w)
     
