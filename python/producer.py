@@ -8,8 +8,6 @@ import time
 # Load environment variables / secrets from .env file.
 load_dotenv()
 
-STREAM_KEY = "jobs"
-
 JOB_TYPES = [
     "cleaning",
     "room_service",
