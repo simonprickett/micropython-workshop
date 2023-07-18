@@ -73,6 +73,7 @@ def run(consumer_id):
                 display.update()            
 
                 # TODO WAIT A RANDOM TIME AND DRAW A PROGRESS BAR...
+                # TODO THE PROGRESS BAR...
                 time.sleep(5)
                 
                 # Tell Redis the job is completed.
