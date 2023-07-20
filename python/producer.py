@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from rich import print, print_json
 from rich.progress import Progress
+from rich.console import Console
 
 import os
 import random
@@ -21,6 +22,9 @@ JOB_TYPES = [
 print("Connecting to Redis.")
 redis_client = redis.from_url(os.getenv("REDIS_URL"))
 
+console = Console()
+console.clear()
+
 while True:
     job = {
         "room": random.randint(100, 500),
@@ -29,7 +33,7 @@ while True:
 
     job_id = redis_client.xadd(os.getenv("REDIS_STREAM_KEY"), job)
 
-    print(f"Created job {job_id}:")
+    print(f"Created job [bold reverse]{job_id}[/bold reverse]:")
     print_json(data = job)
 
     wait_time = random.randint(5, 10)
@@ -40,3 +44,6 @@ while True:
         while not progress.finished:
             time.sleep(wait_time / 100)
             progress.update(wait_task, advance = 1)
+        
+    time.sleep(0.5)
+    console.clear()
