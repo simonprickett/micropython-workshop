@@ -1,4 +1,7 @@
 async-timeout==4.0.2
+certifi==2023.5.7
+charset-normalizer==3.2.0
+idna==3.4
 markdown-it-py==3.0.0
 mdurl==0.1.2
 mpremote==0.4.0
@@ -6,4 +9,6 @@ Pygments==2.15.1
 pyserial==3.5
 python-dotenv==1.0.0
 redis==4.5.4
+requests==2.31.0
 rich==13.4.2
+urllib3==2.0.4
