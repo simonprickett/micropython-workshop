@@ -23,11 +23,11 @@ def refresh_intensity_display():
     # Get the region name
     region_name = response_doc["data"][0]["shortname"]
     
-    # Get the intensity index (very low, low, moderate, high)
+    # Get the intensity index (very low, low, moderate, high, very high)
     intensity_index = response_doc["data"][0]["data"][0]["intensity"]["index"]
 
     # Pick out values from the generation mix data...
-    # we want solar, wind, gas, nuclear, then other is 100% minus the total of those.
+    # We want solar, wind, gas, nuclear, then other is 100% minus the total of those.
     
     solar_pct = 0
     wind_pct = 0
