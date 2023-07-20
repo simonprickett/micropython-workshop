@@ -39,11 +39,11 @@ while True:
     wait_time = random.randint(5, 10)
 
     with Progress() as progress:
-        wait_task = progress.add_task("[yellow]Waiting...", total = 100)
+        wait_task = progress.add_task("[yellow]Waiting...", total = 100, completed = 100)
 
-        while not progress.finished:
+        while progress.tasks[0].completed > 0:
             time.sleep(wait_time / 100)
-            progress.update(wait_task, advance = 1)
+            progress.update(wait_task, advance = -1)
         
     time.sleep(0.5)
     console.clear()
