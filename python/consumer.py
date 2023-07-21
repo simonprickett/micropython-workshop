@@ -6,22 +6,19 @@ from rich.console import Console
 import os
 import random
 import redis
-import socket
 import sys
 import time
 
 # Load environment variables / secrets from .env file.
 load_dotenv()
 
-# Work out the consumer ID from the IP address (assumes IP v4).
-maybe_ip = socket.gethostbyname(socket.gethostname())
-ip_parts = maybe_ip.split(".")
+# Get the consumer name from the command line parameter.
+if len(sys.argv) != 2:
+    sys.exit("Usage: python consumer.py <consumername>")
 
-if len(ip_parts) != 4:
-    sys.exit("Failed to work out consumer name from IP address :(")
-
-consumer_name = ip_parts[3]
+consumer_name = sys.argv[1]
 print(f"Consumer name: {consumer_name}.")
+time.sleep(1.5)
 
 print("Connecting to Redis.")
 redis_client = redis.from_url(os.getenv("REDIS_URL"))
@@ -33,8 +30,6 @@ console = Console()
 console.clear()
 
 while True:
-    print(f"Consumer {consumer_name} fetching next job...")
-
     response = redis_client.xreadgroup(
         os.getenv("REDIS_CONSUMER_GROUP"), 
         consumer_name, 
@@ -60,8 +55,16 @@ while True:
         print(f"Room: {job_details['room']}")
         print(f"Job: {job_details['job']}")
 
-        # TODO wait for a bit to simulate doing work.
+        # Simulate doing the work...
+        wait_time = random.randint(5, 10)
 
+        with Progress() as progress:
+            wait_task = progress.add_task("[yellow]Working...", total = 100, completed = 100)
+
+            while progress.tasks[0].completed > 0:
+                time.sleep(wait_time / 100)
+                progress.update(wait_task, advance = -1)
+        
         # Tell Redis the job is completed.
         redis_client.xack(
             os.getenv("REDIS_STREAM_KEY"), 
@@ -69,6 +72,17 @@ while True:
             job_id
         )
 
-    # TODO wait for a random amount of time before looking for 
-    # the next job.
-    time.sleep(9000)
+        time.sleep(1)
+
+    # Wait for a random amount of time before looking for the next job.
+    console.clear()
+    print(f"Consumer {consumer_name} resting before next job...")
+
+    wait_time = random.randint(5, 10)
+
+    with Progress() as progress:
+        wait_task = progress.add_task("[green]Resting...", total = 100, completed = 100)
+
+        while progress.tasks[0].completed > 0:
+            time.sleep(wait_time / 100)
+            progress.update(wait_task, advance = -1)
