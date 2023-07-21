@@ -89,8 +89,12 @@ def run():
         time.sleep(0.01)
         
         if gfx.gp.switch_pressed(SWITCH_E):
-            # TODO dispay disconnecting message
+            gfx.set_backlight(0, 0, 0, 80)
+            gfx.clear_screen()
+            gfx.display_centered("DISCONNECTING FROM REDIS", 25, 1)
+            display.update()
             redis_client.close()
+            time.sleep(1)
             return
             
         ticks_now = time.ticks_ms()
