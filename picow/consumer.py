@@ -95,6 +95,9 @@ def run(consumer_id):
             show_options(consumer_id)
 
         elif gfx.gp.switch_pressed(SWITCH_E):
-            # TODO display disconnecting message
+            gfx.clear_screen()
+            gfx.display_centered("DISCONNECTING FROM REDIS", 25, 1)
+            display.update()
             redis_client.close()
+            time.sleep(1)
             return
