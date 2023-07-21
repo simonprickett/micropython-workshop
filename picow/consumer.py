@@ -79,7 +79,12 @@ def run(consumer_id):
                 # Tell Redis the job is completed.
                 redis_client.xack(secrets.REDIS_STREAM_KEY, secrets.REDIS_CONSUMER_GROUP, id)
                 
-                # TODO DISPLAY JOB DONE AND FLASH BACKLIGHT
+                gfx.clear_screen()
+                gfx.display_centered("JOB DONE!", 25, 2)
+                display.update()
+                gfx.flash_backlight(5, 0, 64, 0, 0)
+                gfx.set_backlight(0, 0, 0, 80)
+                time.sleep(1)
             
             show_options(consumer_id)
 
