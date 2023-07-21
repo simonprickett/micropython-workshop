@@ -1,4 +1,7 @@
 from dotenv import load_dotenv
+from rich import print
+from rich.progress import Progress
+from rich.console import Console
 
 import os
 import random
@@ -26,8 +29,11 @@ redis_client = redis.from_url(os.getenv("REDIS_URL"))
 stream_config = dict()
 stream_config[os.getenv("REDIS_STREAM_KEY")] = ">"
 
+console = Console()
+console.clear()
+
 while True:
-    print("Fetching next job...")
+    print(f"Consumer {consumer_name} fetching next job...")
 
     response = redis_client.xreadgroup(
         os.getenv("REDIS_CONSUMER_GROUP"), 
@@ -41,13 +47,15 @@ while True:
     # [['jobs', [('1689851801724-0', {'room': '281', 'job': 'extra_towels'})]]]
     # or None if there are no new jobs.
 
+    console.clear()
+
     if response is None:
         print("No new jobs.")
     else:
         # Do the job.
         job_id = response[0][1][0][0]
         job_details = response[0][1][0][1]
-
+        print(f"Consumer: {consumer_name}")
         print(f"Job ID: {job_id}")
         print(f"Room: {job_details['room']}")
         print(f"Job: {job_details['job']}")
