@@ -72,9 +72,14 @@ def run(consumer_id):
                 display.text(f"JOB: {job}", 5, 43, gfx.DISPLAY_WIDTH, 1)
                 display.update()            
 
-                # TODO WAIT A RANDOM TIME AND DRAW A PROGRESS BAR...
-                # TODO THE PROGRESS BAR...
-                time.sleep(5)
+                bar_width = gfx.DISPLAY_WIDTH
+                
+                while bar_width > 0:
+                    gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+                    display.line(0, 61, bar_width, 61, 2)
+                    display.update()
+                    bar_width = bar_width - (gfx.DISPLAY_WIDTH // 20)
+                    time.sleep(0.2)
                 
                 # Tell Redis the job is completed.
                 redis_client.xack(secrets.REDIS_STREAM_KEY, secrets.REDIS_CONSUMER_GROUP, id)
