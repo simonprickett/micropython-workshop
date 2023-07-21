@@ -61,9 +61,21 @@ def run():
             gfx.flash_backlight(5, 0, 64, 0, 0)
             gfx.set_backlight(0, 0, 0, 80)
             
-            time.sleep(5)
+            # Wait a little bit before allowing the creation of the next job.
+            bar_width = gfx.DISPLAY_WIDTH
+                
+            while bar_width > 0:
+                gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+                display.line(0, 61, bar_width, 61, 2)
+                display.update()
+                bar_width = bar_width - (gfx.DISPLAY_WIDTH // 20)
+                time.sleep(0.2)
+                
             show_options()
         elif gfx.gp.switch_pressed(SWITCH_E):
-            # TODO dispay disconnecting message
+            gfx.clear_screen()
+            gfx.display_centered("DISCONNECTING FROM REDIS", 25, 1)
+            display.update()
             redis_client.close()
+            time.sleep(1)
             return
