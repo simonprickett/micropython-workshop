@@ -23,6 +23,44 @@ print(f"Consumer name: {consumer_name}.")
 print("Connecting to Redis.")
 redis_client = redis.from_url(os.getenv("REDIS_URL"))
 
+stream_config = dict()
+stream_config[os.getenv("REDIS_STREAM_KEY")] = ">"
+
 while True:
-    print("TODO...")
+    print("Fetching next job...")
+
+    response = redis_client.xreadgroup(
+        os.getenv("REDIS_CONSUMER_GROUP"), 
+        consumer_name, 
+        stream_config,
+        1, 
+        5000
+    )
+
+    # response looks like:
+    # [['jobs', [('1689851801724-0', {'room': '281', 'job': 'extra_towels'})]]]
+    # or None if there are no new jobs.
+
+    if response is None:
+        print("No new jobs.")
+    else:
+        # Do the job.
+        job_id = response[0][1][0][0]
+        job_details = response[0][1][0][1]
+
+        print(f"Job ID: {job_id}")
+        print(f"Room: {job_details['room']}")
+        print(f"Job: {job_details['job']}")
+
+        # TODO wait for a bit to simulate doing work.
+
+        # Tell Redis the job is completed.
+        redis_client.xack(
+            os.getenv("REDIS_STREAM_KEY"), 
+            os.getenv("REDIS_CONSUMER_GROUP"), 
+            job_id
+        )
+
+    # TODO wait for a random amount of time before looking for 
+    # the next job.
     time.sleep(9000)
