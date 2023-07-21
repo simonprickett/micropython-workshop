@@ -56,8 +56,9 @@ def run(consumer_id):
                 # Nothing to do right now.
                 gfx.display_centered("NO NEW JOBS!", 25, 2)
                 display.update()
-                # TODO FLASH BACKLIGHT
-                time.sleep(3)
+                gfx.flash_backlight(5, 0, 64, 0, 0)
+                gfx.set_backlight(0, 0, 0, 80)
+                time.sleep(1)
 
             else:
                 # Do the job.
