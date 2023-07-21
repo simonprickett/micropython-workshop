@@ -40,7 +40,7 @@ while True:
             elif current_lag < 6:
                 lag_color = "black on yellow"
             elif current_lag < 9:
-                lag_color = "white on dark orange"
+                lag_color = "white on dark_orange"
             else:
                 lag_color = "white on red"
             
@@ -58,6 +58,11 @@ while True:
     if not found_it:
         sys.exit(f"Failed to find consumer group {os.getenv('REDIS_CONSUMER_GROUP')} for stream at {os.getenv('REDIS_STREAM_KEY')}")
 
-    # TODO progress bar counting down to update...
-    time.sleep(5)
+    with Progress() as progress:
+        wait_task = progress.add_task("[yellow]Next update...", total = 100, completed = 100)
+
+        while progress.tasks[0].completed > 0:
+            time.sleep(5 / 100)
+            progress.update(wait_task, advance = -1)
+
     console.clear()

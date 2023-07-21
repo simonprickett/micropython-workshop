@@ -26,6 +26,9 @@ console = Console()
 console.clear()
 
 while True:
+    print("[white on green bold]Job Producer")
+    print("")
+
     job = {
         "room": random.randint(100, 500),
         "job": random.choice(JOB_TYPES)
@@ -35,6 +38,7 @@ while True:
 
     print(f"Created job [bold reverse]{job_id}[/bold reverse]:")
     print_json(data = job)
+    print("")
 
     wait_time = random.randint(5, 10)
 

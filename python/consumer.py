@@ -50,7 +50,8 @@ while True:
         # Do the job.
         job_id = response[0][1][0][0]
         job_details = response[0][1][0][1]
-        print(f"Consumer: {consumer_name}")
+        print(f"[white on dark_orange bold]Consumer: {consumer_name}")
+        print("")
         print(f"Job ID: {job_id}")
         print(f"Room: {job_details['room']}")
         print(f"Job: {job_details['job']}")
@@ -76,8 +77,9 @@ while True:
 
     # Wait for a random amount of time before looking for the next job.
     console.clear()
-    print(f"Consumer {consumer_name} resting before next job...")
-
+    print(f"[white on dark_orange bold]Consumer: {consumer_name}")
+    print("")
+    
     wait_time = random.randint(5, 10)
 
     with Progress() as progress:
