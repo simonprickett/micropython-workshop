@@ -47,6 +47,7 @@ def run(consumer_id):
             gfx.display_centered("FETCHING JOB", 25, 2)
             display.update()
             
+            # TODO deal with RedisError here eg if stream doesn't exist...
             response = redis_client.xreadgroup(
                 "GROUP",
                 secrets.REDIS_CONSUMER_GROUP,
