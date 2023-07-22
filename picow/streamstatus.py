@@ -1,4 +1,5 @@
 from gfx_pack import SWITCH_E
+from picoredis import RedisError
 
 import gfx
 import redis
@@ -20,20 +21,17 @@ def refresh_stream_status_display():
 
     # Get consumer group status information...
     # XINFO GROUPS key
-    response = redis_client.xinfo(
-        "GROUPS",
-        secrets.REDIS_STREAM_KEY
-    )
+    try:
+        response = redis_client.xinfo(
+            "GROUPS",
+            secrets.REDIS_STREAM_KEY
+        )
     
-    # Response includes all possible consumer groups so need to find the
-    # one we are interested in (secrets.REDIS_CONSUMER_GROUP).  It looks like
-    # this:
-    # [[b'name', b'staff', b'consumers', 1, b'pending', 3, b'last-delivered-id', b'1688993636634-0', b'entries-read', 11, b'lag', 0]]
+        # Response includes all possible consumer groups so need to find the
+        # one we are interested in (secrets.REDIS_CONSUMER_GROUP).  It looks like
+        # this:
+        # [[b'name', b'staff', b'consumers', 1, b'pending', 3, b'last-delivered-id', b'1688993636634-0', b'entries-read', 11, b'lag', 0]]
     
-    if response is None:
-        # TODO error case
-        pass
-    else:
         found_it = False
         for consumer_group in response:
             if consumer_group[1].decode("utf-8") == secrets.REDIS_CONSUMER_GROUP:
@@ -66,9 +64,18 @@ def refresh_stream_status_display():
         if not found_it:
             gfx.clear_screen()
             gfx.display_centered(f"NO GROUP \"{secrets.REDIS_CONSUMER_GROUP}\"", 25, 1)
+            gfx.display_centered("E: EXIT", 51, 1)
             display.update()
             gfx.flash_backlight(5, 128, 0, 0, 0)
             gfx.set_backlight(0, 0, 0, 80)
+            
+    except RedisError:
+        gfx.clear_screen()
+        gfx.display_centered(f"NO STREAM \"{secrets.REDIS_STREAM_KEY}\"?", 25, 1)
+        gfx.display_centered("E: EXIT", 51, 1)
+        display.update()
+        gfx.flash_backlight(5, 128, 0, 0, 0)
+        gfx.set_backlight(0, 0, 0, 80)
         
 def run():
     global redis_client
