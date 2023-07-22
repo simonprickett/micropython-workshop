@@ -74,5 +74,17 @@ document.getElementById('carbonBtn').onclick = function() {
   window.location.href = '/regional/postcode/OX1';
 };
 
-// TODO handle getting the updates...
+// Get the initial status...
 await updateStreamStatus();
+
+// Update every 5 seconds or so...
+let updateIn = 5000;
+const updateBar = document.getElementById('updateBar');
+setInterval(async () => {
+  updateIn = updateIn - 100;
+  updateBar.value = (updateIn / 5000) * 100;
+  if (updateIn === 0) {
+    await updateStreamStatus();
+    updateIn = 5000;
+  }
+}, 100);
