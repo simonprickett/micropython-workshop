@@ -12,8 +12,7 @@ def connect():
                 r.auth(secrets.REDIS_PASSWORD)
                                 
         return r
-    except OSError as e:
-        # TODO do something here or pass it on to the caller...
+    except Exception as e:
         print("Redis Error!")
         print(e)
         return None

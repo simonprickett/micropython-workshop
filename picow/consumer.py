@@ -23,12 +23,19 @@ def run(consumer_id):
     display.update()
     
     redis_client = redis.connect()
-    # TODO check if we have a client...
     
     gfx.clear_screen()
+
+    if (redis_client is None):
+        gfx.display_centered("REDIS CONNECTION ERROR", 25, 1)
+        display.update()
+        gfx.flash_backlight(5, 128, 0, 0, 0)
+        return
+    
     gfx.display_centered("CONNECTED TO REDIS", 25, 1)
     display.update()
-    time.sleep(1)
+    gfx.flash_backlight(5, 0, 64, 0, 0)
+    gfx.set_backlight(0, 0, 0, 80)
     
     show_options(consumer_id)
     
