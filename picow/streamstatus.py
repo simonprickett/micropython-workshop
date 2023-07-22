@@ -75,9 +75,17 @@ def run():
     gfx.clear_screen()
     gfx.set_backlight(0, 0, 0, 80)
     
-    # TODO display connecting message...
+    gfx.clear_screen()
+    gfx.display_centered("CONNECTING TO REDIS", 25, 1)
+    display.update()
+
     redis_client = redis.connect()
     # TODO check if we have a client...
+    
+    gfx.clear_screen()
+    gfx.display_centered("CONNECTED TO REDIS", 25, 1)
+    display.update()
+    time.sleep(1)
 
     refresh_stream_status_display()
     last_updated = time.ticks_ms()
