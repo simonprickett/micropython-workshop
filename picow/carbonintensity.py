@@ -75,8 +75,6 @@ def refresh_intensity_display():
 
     # Centre the region name on screen.
     gfx.display_centered(region_name, 2, 1)
-    #region_width = display.measure_text(region_name, 1)
-    #display.text(region_name, (gfx.DISPLAY_WIDTH - region_width) // 2, 2, gfx.DISPLAY_WIDTH, 1)
 
     v_pos = 10
     for g in sorted_generators:
