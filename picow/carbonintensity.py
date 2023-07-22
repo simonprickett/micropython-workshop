@@ -18,7 +18,7 @@ def refresh_intensity_display():
     gfx.display_centered("UPDATING...", 25, 2)
     display.update()
     
-    response_doc = urequests.get(f"{secrets.CARBON_INTENSITY_URL}{secrets.CARBON_INTENSITY_POSTCODE}").json()
+    response_doc = urequests.get(secrets.CARBON_INTENSITY_URL).json()
     
     # Get the region name
     region_name = response_doc["data"][0]["shortname"]
