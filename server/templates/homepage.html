@@ -4,17 +4,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TODO</title>
+  <title>Redis MicroPython Workshop</title>
   <link rel="stylesheet" href="{{ url_for('static', filename = 'bulma.min.css') }}">
 </head>
 
 <body>
   <div class="container">
-    <section class="hero has-background-danger-dark is-bold">
+    <section id="streamStatus" class="hero has-background-danger-dark is-bold">
       <div class="hero-body">
         <div class="container">
           <h1 class="title has-text-white has-text-centered">
-            TODO
+            Job Stream Status
           </h1>
         </div>
       </div>
@@ -23,11 +23,11 @@
       <section class="section">
         <div class="card">
           <div class="card-content">
-            <p id="counterValue" class="title has-text-centered">{{count}}</p>
+            <p id="updatingMessage" class="title has-text-centered">Updating...</p>
           </div>
           <footer class="card-footer">
             <p class="card-footer-item">
-              <button id="incrBtn" class="button is-large is-success">Increment</button>
+              <button id="carbonBtn" class="button is-large is-success">Carbon Intensity Data</button>
             </p>
           </footer>
         </div>
@@ -36,7 +36,7 @@
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
-          <strong>TODO</strong> by <a href="https://simonprickett.dev/">Simon Prickett</a>.  An example 
+          <strong>Redis MicroPython Workshop</strong> by <a href="https://simonprickett.dev/">Simon Prickett</a>.  An example 
           application using <a href="https://redis.io/">Redis</a>, <a href="https://flask.palletsprojects.com/">Flask</a> and <a href="https://bulma.io/">Bulma</a>.
         </p>
         <p><a href="https://github.com/simonprickett/micropython-workshop">Source code is available on GitHub</a>.</p>
