@@ -15,7 +15,7 @@ while True:
     console.clear()
     print("Updating...")
     
-    response_doc = requests.get(f"https://api.carbonintensity.org.uk/regional/postcode/{os.getenv('CARBON_INTENSITY_POSTCODE')}").json()
+    response_doc = requests.get(os.getenv("CARBON_INTENSITY_URL")).json()
 
     # Get the region name.
     region_name = response_doc["data"][0]["shortname"]
