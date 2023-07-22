@@ -64,8 +64,11 @@ def refresh_stream_status_display():
                 display.update()
         
         if not found_it:
-            # TODO consumer group didn't exist!
-            pass
+            gfx.clear_screen()
+            gfx.display_centered(f"NO GROUP \"{secrets.REDIS_CONSUMER_GROUP}\"", 25, 1)
+            display.update()
+            gfx.flash_backlight(5, 128, 0, 0, 0)
+            gfx.set_backlight(0, 0, 0, 80)
         
 def run():
     global redis_client
