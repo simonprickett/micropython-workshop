@@ -1,8 +1,11 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template
 
+import datetime
 import os
 import redis
+
+DATE_TIME_FORMAT = "%Y-%m-%dT%H:%MZ"
 
 # Load environment variables / secrets from file.
 load_dotenv()
@@ -14,7 +17,30 @@ app = Flask(__name__)
 
 @app.route("/regional/postcode/<postcode>", methods = ["GET"])
 def carbon_intensity_simulator(postcode):
-    mix_data = []
+    # Adjust the times to be the current half hour period.
+    # TODO
+    from_datetime = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0, second=0)
+    to_datetime = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0, second=0)
+
+    if from_datetime.minute < 30:
+        from_datetime = from_datetime.replace(minute = 0)
+        to_datetime = to_datetime.replace(minute = 30)
+    else:
+        from_datetime = from_datetime.replace(minute = 30)
+        to_datetime = to_datetime.replace(minute = 0)
+        to_datetime = to_datetime + datetime.timedelta(hours = 1)
+
+    mix_data = [{
+        "from": from_datetime.strftime(DATE_TIME_FORMAT),
+        "to": to_datetime.strftime(DATE_TIME_FORMAT),
+        "intensity": {
+            "forecast": 0,
+            "index": "TODO"
+        },
+        "generationmix": [
+
+        ]
+    }]
     response = dict()
     response["data"] = [{
         "regionid": 12,
