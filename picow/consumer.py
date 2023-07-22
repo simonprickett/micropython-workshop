@@ -1,4 +1,5 @@
 from gfx_pack import SWITCH_A, SWITCH_E
+from picoredis import RedisError
 
 import gfx
 import random
@@ -47,66 +48,73 @@ def run(consumer_id):
             gfx.display_centered("FETCHING JOB", 25, 2)
             display.update()
             
-            # TODO deal with RedisError here eg if stream doesn't exist...
-            response = redis_client.xreadgroup(
-                "GROUP",
-                secrets.REDIS_CONSUMER_GROUP,
-                consumer_id,
-                "COUNT",
-                "1",
-                "STREAMS",
-                secrets.REDIS_STREAM_KEY,
-                ">"
-            )
-            
-            # response looks like:
-            # [[b'jobs', [[b'1688668017967-0', [b'room', b'232', b'job', b'room_service']]]]]
-            #
-            # or when no jobs remain:
-            # None
-            
-            gfx.clear_screen()
-            
-            if response is None:
-                # Nothing to do right now.
-                gfx.display_centered("NO NEW JOBS!", 25, 2)
-                display.update()
-                gfx.flash_backlight(5, 0, 64, 0, 0)
-                gfx.set_backlight(0, 0, 0, 80)
-                time.sleep(1)
-
-            else:
-                # Do the job.
-                task = response[0][1][0][1]
-                room = task[1].decode("utf-8")
-                job = task[3].decode("utf-8")
-                id = response[0][1][0][0].decode("utf-8")
+            try:
+                response = redis_client.xreadgroup(
+                    "GROUP",
+                    secrets.REDIS_CONSUMER_GROUP,
+                    consumer_id,
+                    "COUNT",
+                    "1",
+                    "STREAMS",
+                    secrets.REDIS_STREAM_KEY,
+                    ">"
+                )
                 
-                gfx.display_centered("DOING JOB", 5, 2)
-                display.text(f"ID: {id}", 5, 25, gfx.DISPLAY_WIDTH, 1)
-                display.text(f"ROOM: {room}", 5, 34, gfx.DISPLAY_WIDTH, 1)
-                display.text(f"JOB: {job}", 5, 43, gfx.DISPLAY_WIDTH, 1)
-                display.update()            
-
-                bar_width = gfx.DISPLAY_WIDTH
-                
-                while bar_width > 0:
-                    gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
-                    display.line(0, 61, bar_width, 61, 2)
-                    display.update()
-                    bar_width = bar_width - (gfx.DISPLAY_WIDTH // 20)
-                    time.sleep(0.2)
-                
-                # Tell Redis the job is completed.
-                redis_client.xack(secrets.REDIS_STREAM_KEY, secrets.REDIS_CONSUMER_GROUP, id)
+                # response looks like:
+                # [[b'jobs', [[b'1688668017967-0', [b'room', b'232', b'job', b'room_service']]]]]
+                #
+                # or when no jobs remain:
+                # None
                 
                 gfx.clear_screen()
-                gfx.display_centered("JOB DONE!", 25, 2)
-                display.update()
-                gfx.flash_backlight(5, 0, 64, 0, 0)
-                gfx.set_backlight(0, 0, 0, 80)
-                time.sleep(1)
+                
+                if response is None:
+                    # Nothing to do right now.
+                    gfx.display_centered("NO NEW JOBS!", 25, 2)
+                    display.update()
+                    gfx.flash_backlight(5, 0, 64, 0, 0)
+                    gfx.set_backlight(0, 0, 0, 80)
+                    time.sleep(1)
+
+                else:
+                    # Do the job.
+                    task = response[0][1][0][1]
+                    room = task[1].decode("utf-8")
+                    job = task[3].decode("utf-8")
+                    id = response[0][1][0][0].decode("utf-8")
+                    
+                    gfx.display_centered("DOING JOB", 5, 2)
+                    display.text(f"ID: {id}", 5, 25, gfx.DISPLAY_WIDTH, 1)
+                    display.text(f"ROOM: {room}", 5, 34, gfx.DISPLAY_WIDTH, 1)
+                    display.text(f"JOB: {job}", 5, 43, gfx.DISPLAY_WIDTH, 1)
+                    display.update()            
+
+                    bar_width = gfx.DISPLAY_WIDTH
+                    
+                    while bar_width > 0:
+                        gfx.clear_rect(0, 61, gfx.DISPLAY_WIDTH, 61, 2)
+                        display.line(0, 61, bar_width, 61, 2)
+                        display.update()
+                        bar_width = bar_width - (gfx.DISPLAY_WIDTH // 20)
+                        time.sleep(0.2)
+                    
+                    # Tell Redis the job is completed.
+                    redis_client.xack(secrets.REDIS_STREAM_KEY, secrets.REDIS_CONSUMER_GROUP, id)
+                    
+                    gfx.clear_screen()
+                    gfx.display_centered("JOB DONE!", 25, 2)
+                    display.update()
+                    gfx.flash_backlight(5, 0, 64, 0, 0)
+                    gfx.set_backlight(0, 0, 0, 80)
+                    time.sleep(1)
             
+            except RedisError:
+                gfx.clear_screen()
+                gfx.display_centered(f"NO STREAM \"{secrets.REDIS_STREAM_KEY}\"?", 25, 1)
+                display.update()
+                gfx.flash_backlight(5, 128, 0, 0, 0)
+                gfx.set_backlight(0, 0, 0, 80)
+                
             show_options(consumer_id)
 
         elif gfx.gp.switch_pressed(SWITCH_E):
