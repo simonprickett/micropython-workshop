@@ -24,14 +24,22 @@ def run():
         "extra_pillows"
     ]
     
-    show_options()    
-    time.sleep(1)
     
     display = gfx.display
     
-    # TODO display connecting message...
+    gfx.clear_screen()
+    gfx.display_centered("CONNECTING TO REDIS", 25, 1)
+    display.update()
+    
     redis_client = redis.connect()
-    # TODO check if we have a client...
+    # TODO check if we have a client... and show an error if not.
+    
+    gfx.clear_screen()
+    gfx.display_centered("CONNECTED TO REDIS", 25, 1)
+    display.update()
+    time.sleep(1)
+    
+    show_options()
     
     while True:
         time.sleep(0.01)
