@@ -14,7 +14,17 @@ app = Flask(__name__)
 
 @app.route("/regional/postcode/<postcode>", methods = ["GET"])
 def carbon_intensity_simulator(postcode):
-    pass
+    mix_data = []
+    response = dict()
+    response["data"] = [{
+        "regionid": 12,
+        "dnoregion": "SSE South",
+        "shortname": "South England",
+        "postcode": "OX1",
+        "data": mix_data
+    }]
+
+    return response
 
 @app.route("/status", methods = ["GET"])
 def stream_status():
