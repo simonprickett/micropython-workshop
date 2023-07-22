@@ -10,7 +10,7 @@
 
 <body>
   <div class="container">
-    <section id="streamStatus" class="hero has-background-danger-dark is-bold">
+    <section id="headerArea" class="hero is-bold is-link">
       <div class="hero-body">
         <div class="container">
           <h1 class="title has-text-white has-text-centered">
@@ -24,10 +24,11 @@
         <div class="card">
           <div class="card-content">
             <p id="updatingMessage" class="title has-text-centered">Updating...</p>
+            <div id="statusArea" class="columns is-centered"></div>
           </div>
           <footer class="card-footer">
             <p class="card-footer-item">
-              <button id="carbonBtn" class="button is-large is-success">Carbon Intensity Data</button>
+              <button id="carbonBtn" class="button is-link">Carbon Intensity Data</button>
             </p>
           </footer>
         </div>
@@ -43,7 +44,7 @@
       </div>
     </footer>
   </div>
-  <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}" defer></script>
+  <script type="module" src="{{ url_for('static', filename = 'app.js') }}" defer></script>
 </body>
 
 </html>
