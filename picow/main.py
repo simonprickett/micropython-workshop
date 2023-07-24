@@ -48,7 +48,6 @@ while not wlan.isconnected() and wlan.status() >= 0:
 
 gfx.clear_screen()
 
-# TODO deal with sad path stuff... https://docs.micropython.org/en/latest/library/network.WLAN.html
 if wlan.status() == network.STAT_GOT_IP:
     gfx.display_centered("CONNECTED!", 25, 2)
 elif wlan.status() == network.STAT_WRONG_PASSWORD:
