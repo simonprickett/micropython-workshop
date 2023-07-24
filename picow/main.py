@@ -5,6 +5,7 @@ import gfx
 import network
 import producer
 import secrets
+import sys
 import streamstatus
 import time
 
@@ -37,19 +38,38 @@ wlan.connect(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
 n = 0
 while not wlan.isconnected() and wlan.status() >= 0:
     gfx.clear_screen()
+    # TODO sort out these extra params - wordwrap & scale
     display.text(f"CONNECTING {SPINNER_CHARS[n]}", 2, 25, gfx.DISPLAY_WIDTH, 2)
     display.update()
     
     n = n + 1 if n < len(SPINNER_CHARS) - 1 else 0
     
     time.sleep(0.2)
-    
+
+gfx.clear_screen()
+
 # TODO deal with sad path stuff... https://docs.micropython.org/en/latest/library/network.WLAN.html
-# TODO sort out these extra params - wordwrap & scale
-gfx.display_centered("CONNECTED!", 1, 2)
-gfx.flash_backlight(5, 0, 64, 0, 0)
-gfx.set_backlight(0, 0, 0, 80)
-time.sleep(1)
+if wlan.status() == network.STAT_GOT_IP:
+    gfx.display_centered("CONNECTED!", 25, 2)
+elif wlan.status() == network.STAT_WRONG_PASSWORD:
+    gfx.display_centered("WRONG WIFI PASSWORD!", 25, 1)
+elif wlan.status() == network.STAT_NO_AP_FOUND:
+    gfx.display_centered("WRONG WIFI SSID!", 25, 1)
+else:
+    gfx.display_centered("WIFI CONNECTION ERROR!", 25, 1)
+
+display.update()
+
+if wlan.status() == network.STAT_GOT_IP:
+    gfx.flash_backlight(5, 0, 64, 0, 0)
+    gfx.set_backlight(0, 0, 0, 80)
+    time.sleep(1)
+else:
+    gfx.flash_backlight(5, 128, 0, 0, 0)
+    gfx.set_backlight(128, 0, 0, 0)
+    
+    # Stop as we can't do anything without wifi.
+    sys.exit(1)
 
 main_menu()
 
