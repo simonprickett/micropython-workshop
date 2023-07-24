@@ -7,6 +7,8 @@ import random
 import redis
 
 DATE_TIME_FORMAT = "%Y-%m-%dT%H:%MZ"
+INTENSITY_INDEX_VALUES = [ "very low", "low", "moderate", "high", "very high" ]
+GENERATION_MIX_FUELS = [ "biomass", "coal", "wind", "solar", "imports", "gas", "nuclear", "hydro", "other"]
 
 # Load environment variables / secrets from file.
 load_dotenv()
@@ -31,20 +33,44 @@ def carbon_intensity_simulator(postcode):
         to_datetime = to_datetime.replace(minute = 0)
         to_datetime = to_datetime + datetime.timedelta(hours = 1)
 
-    intensity_index = random.choice([
-        "very low", "low", "moderate", "high", "very high"
-    ])
+    intensity_index = random.choice(INTENSITY_INDEX_VALUES)
+
+    forecast = 0
+
+    if intensity_index == "very low":
+        forecast = random.randint(0, 49)
+    elif intensity_index == "low":
+        forecast = random.randint(50, 99)
+    elif intensity_index == "moderate":
+        forecast = random.randint(100, 199)
+    elif intensity_index == "high":
+        forecast = random.randint(200, 299)
+    else:
+        forecast = random.randint(300, 399)
+
+    generation_mix = []
+    percentage_remaining = 100
+    random.shuffle(GENERATION_MIX_FUELS)
+
+    for fuel in GENERATION_MIX_FUELS: 
+        this_fuel_perc = random.randint(0, percentage_remaining)
+        percentage_remaining = percentage_remaining - this_fuel_perc
+        if percentage_remaining < 0:
+            percentage_remaining = 0
+
+        generation_mix.append({
+            "fuel": fuel,
+            "perc": this_fuel_perc
+        })
 
     mix_data = [{
         "from": from_datetime.strftime(DATE_TIME_FORMAT),
         "to": to_datetime.strftime(DATE_TIME_FORMAT),
         "intensity": {
-            "forecast": 0,
+            "forecast": forecast,
             "index": intensity_index
         },
-        "generationmix": [
-
-        ]
+        "generationmix": generation_mix
     }]
     response = dict()
     response["data"] = [{
