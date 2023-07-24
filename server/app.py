@@ -3,6 +3,7 @@ from flask import Flask, render_template
 
 import datetime
 import os
+import random
 import redis
 
 DATE_TIME_FORMAT = "%Y-%m-%dT%H:%MZ"
@@ -30,12 +31,16 @@ def carbon_intensity_simulator(postcode):
         to_datetime = to_datetime.replace(minute = 0)
         to_datetime = to_datetime + datetime.timedelta(hours = 1)
 
+    intensity_index = random.choice([
+        "very low", "low", "moderate", "high", "very high"
+    ])
+
     mix_data = [{
         "from": from_datetime.strftime(DATE_TIME_FORMAT),
         "to": to_datetime.strftime(DATE_TIME_FORMAT),
         "intensity": {
             "forecast": 0,
-            "index": "TODO"
+            "index": intensity_index
         },
         "generationmix": [
 
@@ -46,7 +51,7 @@ def carbon_intensity_simulator(postcode):
         "regionid": 12,
         "dnoregion": "SSE South",
         "shortname": "South England",
-        "postcode": "OX1",
+        "postcode": postcode,
         "data": mix_data
     }]
 
