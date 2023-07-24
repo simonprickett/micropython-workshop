@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route("/regional/postcode/<postcode>", methods = ["GET"])
 def carbon_intensity_simulator(postcode):
     # Adjust the times to be the current half hour period.
-    # TODO
+    # TODO finish the fake data here...
     from_datetime = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0, second=0)
     to_datetime = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0, second=0)
 
