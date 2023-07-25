@@ -1,11 +1,12 @@
-WIFI_SSID = "ssmesh"
-WIFI_PASSWORD = "BBCm1Cr023763"
-REDIS_HOST = "192.168.4.24"
+WIFI_SSID = "simonberyl"
+WIFI_PASSWORD = "goodlife"
+REDIS_HOST = "192.168.8.245"
 REDIS_PORT = 6379
 REDIS_USER = ""
 REDIS_PASSWORD = ""
 REDIS_STREAM_KEY = "jobs"
 REDIS_CONSUMER_GROUP = "staff"
 REDIS_STREAM_UPDATE_FREQUENCY = 5
-CARBON_INTENSITY_URL = "https://api.carbonintensity.org.uk/regional/postcode/NG7"
+#CARBON_INTENSITY_URL = "https://api.carbonintensity.org.uk/regional/postcode/OX1"
+CARBON_INTENSITY_URL = "http://192.168.8.245:5000/regional/postcode/OX1"
 CARBON_INTENSITY_UPDATE_FREQUENCY = 60
