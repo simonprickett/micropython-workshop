@@ -4,6 +4,13 @@
 
 A MicroPython Workshop... TODO Documentation!
 
+## Hardware Bill of Materials
+
+![Workshop Hardware](images/workshop_kit.png)
+
+TODO
+
+
 ```
 XGROUP CREATE jobs staff 0 MKSTREAM
 ```
