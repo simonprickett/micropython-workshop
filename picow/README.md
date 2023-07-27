@@ -4,6 +4,10 @@
 
 ## Overview
 
+This component is written in MicroPython and runs on the Rasperry Pi Pico W hardware with the Pimoroni GFX Pack display.
+
+It connects to the Redis database running elsewhere for the Streams functionality and also contains a demonstration of how to call an API and display the results graphically.  This latter functionality doesn't use Redis.
+
 ## Prerequisites
 
 To get this component up and running you'll need:
