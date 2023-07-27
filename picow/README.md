@@ -43,20 +43,30 @@ Restart the device by pressing the Reset button on the rear of the GFX Pack.
 
 Hopefully the device will boot, connect to the network and display a menu.  If it fails to do this, check in with your instructor for help.
 
-The software on the device performs four distinct tasks, which are described in the following sections...
+The software on the device performs four distinct tasks, which are described in the following sections...  Use buttons A-D on the GFX pack to access each.  
 
-## The Producer
+The code for the menu screen / startup process is contained in the `main.py` file.
 
-TODO
-
-## The Consumer
+## The Producer (Button A)
 
 TODO
 
-## The Stream Status Display
+The code for this screen is contained in the `producer.py` file.
+
+## The Consumer (Button B)
 
 TODO
 
-## Carbon Intensity Display
+The code for this screen is contained in the `consumer.py` file.
+
+## The Stream Status Display (Button C)
 
 TODO
+
+The code for this screen is contained in the `streamstatus.py` file.
+
+## Carbon Intensity Display (Button D)
+
+TODO
+
+The code for this screen is contained in the `carbonintensity.py` file.
