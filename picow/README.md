@@ -53,24 +53,24 @@ The code for the menu screen / startup process is contained in the `main.py` fil
 
 ## The Producer (Button A)
 
-TODO
+The producer waits until the user presses a button then randomly generates a new job and places it into the Redis Stream.  It shows the ID that Redis assigns to the job, then waits a few seconds before allowing the user to create more jobs.
 
 The code for this screen is contained in the `producer.py` file.
 
 ## The Consumer (Button B)
 
-TODO
+The consumer works as part of the "staff" consumer group to collaboratively process jobs from the stream.  When the user presses a button, it requests the next available job, waits a few seconds to simulate doing the work, then acknowledges that job has been done by updating Redis.
 
 The code for this screen is contained in the `consumer.py` file.
 
 ## The Stream Status Display (Button C)
 
-TODO
+This displays the overall status of the jobs stream, showing the number of consumers assigned to the "staff" group, the number of jobs currently in process (read but not yet acknowledged as complete) and the lag (the number of jobs not being worked on - how far behind the consumers are with processing the stream).
 
 The code for this screen is contained in the `streamstatus.py` file.
 
 ## Carbon Intensity Display (Button D)
 
-TODO
+This doesn't use Redis, instead it makes an API call to the UK carbon intensity API for a configurable postcode (see `secrets.py`).  A summary of the make up of the current electricity generation mix is displayed as a bar graph.  The display automatically updates periodically.
 
 The code for this screen is contained in the `carbonintensity.py` file.
