@@ -10,6 +10,13 @@ If you don't have the hardware, you can run equivalent desktop Python scripts an
 
 Interested in having me deliver this workshop for your group?  [Get in touch](https://simonprickett.dev/contact/).  Want to learn more about Redis Streams?  Try the [free online course](https://university.redis.com/courses/ru202/) at Redis University.
 
+## Slides
+
+The slides that accompany this workshop are contained in this repository:
+
+* [Slides in Apple Keynote format](slides/micropython_workshop_slides.key).
+* [Slides in PDF format](slides/micropython_workshop_slides.pdf).
+
 ## Hardware Bill of Materials
 
 ![Workshop Hardware](images/workshop_kit.png)
