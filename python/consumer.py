@@ -44,7 +44,8 @@ while True:
 
     console.clear()
 
-    if response is None:
+    print(response)
+    if response is None or len(response) == 0:
         print("No new jobs.")
     else:
         # Do the job.
