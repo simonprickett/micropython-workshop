@@ -68,7 +68,7 @@ def run(consumer_id):
                 
                 gfx.clear_screen()
                 
-                if response is None:
+                if response is None or len(response) == 0:
                     # Nothing to do right now.
                     gfx.display_centered("NO NEW JOBS!", 25, 2)
                     display.update()
