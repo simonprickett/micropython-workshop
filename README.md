@@ -8,6 +8,10 @@ In this workshop you'll learn about Redis Streams, MicroPython, how to call an A
 
 If you don't have the hardware, you can run equivalent desktop Python scripts and still learn about Redis Streams and some cool tricks for displaying information in the terminal using the ["rich"](https://pypi.org/project/rich/) module for Python.
 
+I've taught this workshop in person and also delivered it as a sort of talk online.  Check out the video of my talk about it that I gave to the Melbourne MicroPython Meetup Group.  It's on the official MicroPython YouTube channel!
+
+[![Video thumbnail image](images/video_thumb.png)](https://www.youtube.com/watch?v=tP6DDbgesnc)
+
 Interested in having me deliver this workshop for your group?  [Get in touch](https://simonprickett.dev/contact/).  Want to learn more about Redis Streams?  Try the [free online course](https://university.redis.com/courses/ru202/) at Redis University.
 
 ## Slides
