@@ -38,7 +38,6 @@ wlan.connect(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
 n = 0
 while not wlan.isconnected() and wlan.status() >= 0:
     gfx.clear_screen()
-    # TODO sort out these extra params - wordwrap & scale
     display.text(f"CONNECTING {SPINNER_CHARS[n]}", 2, 25, gfx.DISPLAY_WIDTH, 2)
     display.update()
     
