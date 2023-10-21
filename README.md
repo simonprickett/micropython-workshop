@@ -108,7 +108,7 @@ Redis is now set up and running!
 
 You should now read the README files in the various folders in this repository:
 
-* [`micropython`](micropython/README.md) - The MicroPython software that runs on the Raspberry Pi Pico W.
+* [`picow`](picow/README.md) - The MicroPython software that runs on the Raspberry Pi Pico W.
 * [`python`](python/README.md) - Desktop Python alternatives that perform the same tasks as the MicroPython code.
 * [`server`](server/README.md) - A server that displays Redis Stream overview information in a web front end, and which can also act as a fake data generator for the carbon intensity functionality in environments where connecting the Raspberry Pi Pico W to the internet is not practical (example: wifi with a [captive portal](https://en.wikipedia.org/wiki/Captive_portal)).
 
